@@ -47,76 +47,76 @@
 </template>
 
 <script>
-import videos from '../base/videos.json'
+import videos from "../base/videos.json";
 
 export default {
-  name: 'VideoPlayer',
+  name: "VideoPlayer",
   props: {
     videoId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       videos,
       activeVideo: null,
       showLogoutButton: false,
-      loggedInUsername: ''
-    }
+      loggedInUsername: "",
+    };
   },
-  created () {
-    const selectedVideoId = localStorage.getItem('selectedVideoId')
+  created() {
+    const selectedVideoId = localStorage.getItem("selectedVideoId");
     this.activeVideo = this.videos.find(
       (video) => String(video.id) === selectedVideoId
-    )
+    );
     if (this.activeVideo) {
       this.activeVideo.likes =
         parseInt(localStorage.getItem(`likes_${selectedVideoId}`)) ||
-        this.activeVideo.likes
+        this.activeVideo.likes;
     }
-    const userData = localStorage.getItem('userData')
+    const userData = localStorage.getItem("userData");
     if (userData) {
-      const parsedUserData = JSON.parse(userData)
-      this.loggedInUsername = parsedUserData.username // Устанавливаем имя пользователя из localStorage
+      const parsedUserData = JSON.parse(userData);
+      this.loggedInUsername = parsedUserData.username; // Устанавливаем имя пользователя из localStorage
     }
   },
   methods: {
-    chooseVideo (video) {
+    chooseVideo(video) {
       // SET VIDEO AS ACTIVE VIDEO
-      this.activeVideo = video
+      this.activeVideo = video;
       // INCREASE THE VIDEOS VIEWS BY 1
       video.views =
-        (parseInt(localStorage.getItem(`views_${video.id}`)) || 0) + 1
-      localStorage.setItem('selectedVideoId', video.id)
-      localStorage.setItem(`views_${video.id}`, video.views)
+        (parseInt(localStorage.getItem(`views_${video.id}`)) || 0) + 1;
+      localStorage.setItem("selectedVideoId", video.id);
+      localStorage.setItem(`views_${video.id}`, video.views);
     },
-    addLike () {
-      this.activeVideo.likes += 1
+    addLike() {
+      this.activeVideo.likes += 1;
       localStorage.setItem(
         `likes_${this.activeVideo.id}`,
         this.activeVideo.likes
-      )
+      );
     },
-    getViews (video) {
-      return localStorage.getItem(`views_${video.id}`) || 0
+    getViews(video) {
+      return localStorage.getItem(`views_${video.id}`) || 0;
     },
-    logout () {
+    logout() {
       // Перенаправляем пользователя на страницу авторизации
-      this.$router.push('/login')
+      this.$router.push("/login");
     },
-    toggleLogoutButton () {
-      this.showLogoutButton = !this.showLogoutButton
-    }
+    toggleLogoutButton() {
+      this.showLogoutButton = !this.showLogoutButton;
+    },
   },
-  beforeDestroy () {
-    // Обновляем данные о просмотрах перед уходом с текущей страницы
+  beforeDestroy() {
+    // Обновляем данные о просмотрах перед уходом с текущей страницы ()
     localStorage.setItem(
       `views_${this.activeVideo.id}`,
       (parseInt(localStorage.getItem(`views_${this.activeVideo.id}`)) || 0) + 1
-    )
-  }
-}
+    );
+  },
+};
 </script>
 
 <style scoped>
@@ -306,5 +306,4 @@ button {
     max-height: 180px;
   }
 }
-
 </style>
