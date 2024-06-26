@@ -107,6 +107,7 @@ export default {
     toggleErrorMessage () {
       this.errorMessage = ''
     },
+    // Отображение логина и пароля
     saveUserData () {
       const userData = {
         username: this.username,
