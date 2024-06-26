@@ -1,4 +1,4 @@
-# vuetube
+# VideoPlanet
 
 > A Vue.js project
 
